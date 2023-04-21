@@ -1,8 +1,8 @@
-use std::fmt::Debug;
+// use std::fmt::Debug;
 
-fn simple_print<T: Debug>(value: T) {
-    println!("{:?}", value);
-}
+// fn simple_print<T: Debug>(value: T) {
+//     println!("{:?}", value);
+// }
 
 // struct Point<T, U> {
 //     x: T, //i32
@@ -61,34 +61,88 @@ fn simple_print<T: Debug>(value: T) {
 //         }
 //     }
 
+trait Kendaraan {
+    fn set_mil_per_galon(&mut self, mil_per_galon: i32) -> ();
+    fn set_warna(&mut self, warna: String) -> ();
+    fn set_kecepatan_tertinggi(&mut self, kecepatan_tertinggi: i32) -> ();
+}
+
+#[derive(Debug)]
+struct Motor {
+    mil_per_galon: i32,
+    warna: String,
+    kecepatan_tertinggi: i32
+}
+
+#[derive(Debug)]
+struct Mobil {
+    mil_per_galon: i32,
+    warna: String,
+    kecepatan_tertinggi: i32
+}
+
+impl Kendaraan for Motor {
+    fn set_mil_per_galon(&mut self, mil_per_galon: i32) -> () {
+        self.mil_per_galon = mil_per_galon;
+    }
+    fn set_warna(&mut self, warna: String) -> () {
+        self.warna = warna;
+    }
+    fn set_kecepatan_tertinggi(&mut self, kecepatan_tertinggi: i32) -> () {
+        self.kecepatan_tertinggi = kecepatan_tertinggi;
+    }
+}
+
+impl Kendaraan for Mobil {
+    fn set_mil_per_galon(&mut self, mil_per_galon: i32) -> () {
+        self.mil_per_galon = mil_per_galon;
+    }
+    fn set_warna(&mut self, warna: String) -> () {
+        self.warna = warna;
+    }
+    fn set_kecepatan_tertinggi(&mut self, kecepatan_tertinggi: i32) -> () {
+        self.kecepatan_tertinggi = kecepatan_tertinggi;
+    }
+}
+
+fn set_mil_per_galon(kendaraan: &mut impl Kendaraan, mil_per_galon: i32) {
+    kendaraan.set_mil_per_galon(mil_per_galon)
+}
+fn set_warna(kendaraan: &mut impl Kendaraan, warna: String) {
+    kendaraan.set_warna(warna)
+}
+fn set_kecepatan_tertinggi(kendaraan: &mut impl Kendaraan, kecepatan_tertinggi: i32) {
+    kendaraan.set_kecepatan_tertinggi(kecepatan_tertinggi)
+}
+
 fn main() {
 
-    let a_string = String::from("jPao");
-    simple_print(a_string);
+    let mut kawasaki = Motor {mil_per_galon: 20, warna: String::from("Black"), kecepatan_tertinggi: 250};
+    let mut bmw = Mobil {mil_per_galon: 34, warna: String::from("Red"), kecepatan_tertinggi: 320};
+
+    println!("Before Modification:");
+    println!("{:?}", kawasaki);
+    println!("{:?}", bmw);
+
+    set_mil_per_galon(&mut kawasaki, 50);
+    set_warna(&mut kawasaki, String::from("White"));
+    set_kecepatan_tertinggi(&mut kawasaki, 150);
+    set_mil_per_galon(&mut bmw, 80);
+    set_warna(&mut bmw, String::from("Black"));
+    set_kecepatan_tertinggi(&mut bmw, 370);
+
+    println!("After Modification:");
+    println!("{:?}", kawasaki);
+    println!("{:?}", bmw);
+
+    // let a_string = String::from("jPao");
+    // simple_print(a_string);
 
     // let coord = Point {x: 5.0, y: 5.0};
     // let coord2 = Point {x: 1.0, y: 2.0};
 
     // let sum = coord + coord2;
     // println!("{:?}", sum);
-
-    // let mut kawasaki = Motorcycle {mpg: 20, color: String::from("Black"), top_speed: 250};
-    // let mut bmw = Car {mpg: 34, color: String::from("Red"), top_speed: 320};
-
-    // println!("Before Modification:");
-    // println!("{:?}", kawasaki);
-    // println!("{:?}", bmw);
-
-    // kawasaki.set_mpg(50);
-    // kawasaki.set_color(String::from("White"));
-    // kawasaki.set_top_speed(150);
-    // bmw.set_mpg(80);
-    // bmw.set_color(String::from("Black"));
-    // bmw.set_top_speed(370);
-
-    // println!("After Modification:");
-    // println!("{:?}", kawasaki);
-    // println!("{:?}", bmw);
 
     // let coord = Point {x: 5.0, y: 5.0};
     // let coord2 = Point {x: 'x', y: 5.0};
@@ -116,50 +170,5 @@ fn main() {
 //     fn clone(&self) -> self;
 //     fn clone_from(&mut self, source: &self) {
 //         *self = source.clone()
-//     }
-// }
-
-
-// trait Set {
-//     fn set_mpg(&mut self, new_mpg: i32) -> ();
-//     fn set_color(&mut self, new_color: String) -> ();
-//     fn set_top_speed(&mut self, new_top_speed: i32) -> ();
-// }
-
-// #[derive(Debug)]
-// struct Motorcycle {
-//     mpg: i32,
-//     color: String,
-//     top_speed: i32
-// }
-
-// #[derive(Debug)]
-// struct Car {
-//     mpg: i32,
-//     color: String,
-//     top_speed: i32
-// }
-
-// impl Set for Motorcycle {
-//     fn set_mpg(&mut self, new_mpg: i32) -> () {
-//         self.mpg = new_mpg;
-//     }
-//     fn set_color(&mut self, new_color: String) -> () {
-//         self.color = new_color;
-//     }
-//     fn set_top_speed(&mut self, new_top_speed: i32) -> () {
-//         self.top_speed = new_top_speed;
-//     }
-// }
-
-// impl Set for Car {
-//     fn set_mpg(&mut self, new_mpg: i32) -> () {
-//         self.mpg = new_mpg;
-//     }
-//     fn set_color(&mut self, new_color: String) -> () {
-//         self.color = new_color;
-//     }
-//     fn set_top_speed(&mut self, new_top_speed: i32) -> () {
-//         self.top_speed = new_top_speed;
 //     }
 // }
